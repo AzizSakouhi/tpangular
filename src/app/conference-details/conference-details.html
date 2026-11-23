@@ -1,0 +1,32 @@
+<aside class="details-panel">
+  @if (conference) {
+    <h3>Détails de la conférence</h3>
+    <h4>{{ conference.title }}</h4>
+    <p>{{ conference.description }}</p>
+    <p>📅 <strong>Date :</strong> {{ conference.date | date: 'dd MMMM yyyy' }}</p>
+    <p>📍 <strong>Lieu :</strong> {{ conference.place }}</p>
+    <p>
+      👥 <strong>Participants :</strong> {{ conference.nbParticipants }} /
+      {{ conference.maxParticipants }} ({{ remainingPlaces }} places restantes)
+    </p>
+
+    <div class="actions">
+      <button
+        type="button"
+        class="btn"
+        [disabled]="remainingPlaces === 0"
+        [ngClass]="{
+          'btn-available': remainingPlaces > 0,
+          'btn-full': remainingPlaces === 0,
+          'btn-low': remainingPlaces > 0 && remainingPlaces <= 10
+        }"
+        (click)="register()"
+      >
+        S'inscrire
+      </button>
+      <button type="button" class="close-btn" (click)="close()">Fermer</button>
+    </div>
+  } @else {
+    <p class="placeholder">Cliquez sur une conférence pour afficher ses détails.</p>
+  }
+</aside>

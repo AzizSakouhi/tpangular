@@ -12,7 +12,11 @@
   } @else {
     <div class="grid">
       @for (c of filteredConferences; track c.id) {
-        <article class="conference-card">
+        <article
+          class="conference-card"
+          [class.selected]="c === selectedConference"
+          (click)="select(c)"
+        >
           <h3>{{ c.title | uppercase }}</h3>
           <p>{{ c.description }}</p>
           <p>📅 {{ c.date | date: 'dd MMMM yyyy' }}</p>
@@ -22,11 +26,27 @@
             ({{ remainingPlaces(c) }} places restantes)
           </p>
 
-          <button class="btn"
-          [ngClass]="{ 'btn-available': remainingPlaces(c) > 0, 'btn-full': remainingPlaces(c) === 0, 'btn-low': remainingPlaces(c) > 0 && remainingPlaces(c) <= 10 }"
-          >S'inscrire</button>
+          <button
+            class="btn"
+            [disabled]="remainingPlaces(c) === 0"
+            (click)="register(c); $event.stopPropagation()"
+            [ngClass]="{
+              'btn-available': remainingPlaces(c) > 0,
+              'btn-full': remainingPlaces(c) === 0,
+              'btn-low': remainingPlaces(c) > 0 && remainingPlaces(c) <= 10
+            }"
+          >
+            S'inscrire
+          </button>
         </article>
       }
     </div>
   }
+
+  <!-- Composant imbriqué : @Input pour la sélection, @Output pour fermer et s'inscrire -->
+  <app-conference-details
+    [conference]="selectedConference"
+    (closed)="clearSelection()"
+    (registered)="register($event)"
+  ></app-conference-details>
 </section>

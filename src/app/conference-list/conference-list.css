@@ -1,4 +1,4 @@
-    .conf-header {
+.conf-header {
   display: flex;
   align-items: center;
   gap: 20px;
@@ -86,4 +86,23 @@
 .btn-full {
   background: #c62828; /* rouge */
   cursor: not-allowed;
+}
+
+/* Carte de conférence (le template utilise la classe .conference-card) */
+.conference-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 22px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.conference-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.conference-card.selected {
+  border-color: #0f766e;
+  box-shadow: 0 0 0 2px #0f766e;
 }

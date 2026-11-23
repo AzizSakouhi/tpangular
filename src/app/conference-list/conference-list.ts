@@ -1,25 +1,20 @@
 import { Component } from '@angular/core';
 import { DatePipe, NgClass, UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-export interface Conference {
-  id: number;
-  title: string;
-  description: string;
-  date: Date;
-  place: string;
-  maxParticipants: number;
-  nbParticipants: number;
-}
+import { Conference } from '../Models/conference';
+import { ConferenceDetails } from '../conference-details/conference-details';
 
 @Component({
   selector: 'app-conference-list',
-  imports: [FormsModule, UpperCasePipe, DatePipe, NgClass],
+  imports: [FormsModule, UpperCasePipe, DatePipe, NgClass, ConferenceDetails],
   templateUrl: './conference-list.html',
   styleUrl: './conference-list.css',
 })
 export class ConferenceList {
   searchText = '';
+
+  // Conférence sélectionnée, transmise au composant enfant via @Input
+  selectedConference: Conference | null = null;
 
   conferences: Conference[] = [
     {
@@ -78,5 +73,14 @@ export class ConferenceList {
     if (this.remainingPlaces(c) > 0) {
       c.nbParticipants++;
     }
+  }
+
+  select(c: Conference) {
+    this.selectedConference = c;
+  }
+
+  // Appelée quand l'enfant émet l'événement (closed)
+  clearSelection() {
+    this.selectedConference = null;
   }
 }
